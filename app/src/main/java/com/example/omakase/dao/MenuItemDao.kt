@@ -5,11 +5,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.omakase.MenuItem
+import com.example.omakase.entity.MenuItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MenuItemDao {
+interface   MenuItemDao {
 
     @Insert
     suspend fun insert(menuItem: MenuItem)
