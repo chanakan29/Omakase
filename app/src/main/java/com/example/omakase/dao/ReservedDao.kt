@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.omakase.Reserved
+import com.example.omakase.Table // อย่าลืม Import Table
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -26,9 +27,9 @@ interface ReservedDao {
     @Query("SELECT * FROM reservations WHERE reservationId = :id")
     fun getReservationById(id: Int): Flow<Reserved>
 
-    // Query สำหรับค้นหาโต๊ะที่ว่าง ณ วันที่และเวลาที่กำหนด
-    @Query("SELECT T.* FROM tables AS T LEFT JOIN reservations AS R ON T.tableId = R.tableId WHERE R.reservationDate != :date OR R.reservationTime != :time OR R.tableId IS NULL")
-    fun getAvailableTables(date: Long, time: String): Flow<List<com.example.omakase.Table>>
+    // Query สำหรับค้นหาโต๊ะที่ว่าง ณ วันที่และเวลาที่กำหนด (ใช้ NOT EXISTS)
+    @Query("SELECT T.* FROM tables AS T WHERE NOT EXISTS (SELECT 1 FROM reservations AS R WHERE R.tableId = T.tableId AND R.reservationDate = :date AND R.reservationTime = :time)")
+    fun getAvailableTables(date: Long, time: String): Flow<List<Table>>
 
     // Query สำหรับค้นหาการจองตามวันที่
     @Query("SELECT * FROM reservations WHERE reservationDate = :date")
