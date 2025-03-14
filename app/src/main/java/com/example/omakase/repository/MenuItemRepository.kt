@@ -12,18 +12,34 @@ class MenuItemRepository(private val menuItemDao: MenuItemDao) {
     fun getMenuItemById(id: Int): Flow<MenuItem> = menuItemDao.getMenuItemById(id)
 
     suspend fun insert(menuItem: MenuItem) {
-        menuItemDao.insert(menuItem)
+        try {
+            menuItemDao.insert(menuItem)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 
     suspend fun insertAll(menuItems: List<MenuItem>) {
-        menuItemDao.insertAll(menuItems)
+        try {
+            menuItemDao.insertAll(menuItems)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 
     suspend fun update(menuItem: MenuItem) {
-        menuItemDao.update(menuItem)
+        try {
+            menuItemDao.update(menuItem)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 
     suspend fun delete(menuItem: MenuItem) {
-        menuItemDao.delete(menuItem)
+        try {
+            menuItemDao.delete(menuItem)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 }

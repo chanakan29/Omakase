@@ -8,19 +8,32 @@ class CourseRepository(private val courseDao: CourseDao) {
 
     val allCourses: Flow<List<Course>> = courseDao.getAllCourses()
 
+    fun getCourseById(id: Int): Flow<Course> = courseDao.getCourseById(id)
+
     suspend fun insert(course: Course) {
-        courseDao.insert(course)
+        try {
+            courseDao.insert(course)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+            // อาจจะ throw e ต่อ หรือ return Result.failure(e)
+        }
     }
 
     suspend fun update(course: Course) {
-        courseDao.update(course)
+        try {
+            courseDao.update(course)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+            // อาจจะ throw e ต่อ หรือ return Result.failure(e)
+        }
     }
 
     suspend fun delete(course: Course) {
-        courseDao.delete(course)
-    }
-
-    fun getCourseById(id: Int): Flow<Course> {
-        return courseDao.getCourseById(id)
+        try {
+            courseDao.delete(course)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+            // อาจจะ throw e ต่อ หรือ return Result.failure(e)
+        }
     }
 }

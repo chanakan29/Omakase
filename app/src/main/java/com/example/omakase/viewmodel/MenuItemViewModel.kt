@@ -5,33 +5,45 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.omakase.entity.MenuItem
 import com.example.omakase.repository.MenuItemRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MenuItemViewModel(private val menuItemRepository: MenuItemRepository) : ViewModel() {
 
-    fun getMenuItemsByCourseId(courseId: Int) = menuItemRepository.getMenuItemsByCourseId(courseId)
+    fun getMenuItemsByCourseId(courseId: Int): StateFlow<List<MenuItem>> =
+        menuItemRepository.getMenuItemsByCourseId(courseId).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
-    fun getMenuItemById(id: Int) = menuItemRepository.getMenuItemById(id)
+    fun getMenuItemById(id: Int): StateFlow<MenuItem> = menuItemRepository.getMenuItemById(id).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = MenuItem(0, 0, "", "") // ค่าเริ่มต้นที่เหมาะสม
+    )
 
-    suspend fun insert(menuItem: MenuItem) {
+    fun insert(menuItem: MenuItem) {
         viewModelScope.launch {
             menuItemRepository.insert(menuItem)
         }
     }
 
-    suspend fun insertAll(menuItems: List<MenuItem>) {
+    fun insertAll(menuItems: List<MenuItem>) {
         viewModelScope.launch {
             menuItemRepository.insertAll(menuItems)
         }
     }
 
-    suspend fun update(menuItem: MenuItem) {
+    fun update(menuItem: MenuItem) {
         viewModelScope.launch {
             menuItemRepository.update(menuItem)
         }
     }
 
-    suspend fun delete(menuItem: MenuItem) {
+    fun delete(menuItem: MenuItem) {
         viewModelScope.launch {
             menuItemRepository.delete(menuItem)
         }

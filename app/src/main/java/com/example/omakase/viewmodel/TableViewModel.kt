@@ -5,28 +5,39 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.omakase.entity.Table
 import com.example.omakase.repository.TableRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class TableViewModel(private val tableRepository: TableRepository) : ViewModel() {
 
-    val allTables: Flow<List<Table>> = tableRepository.allTables
+    private val _allTables = tableRepository.allTables.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
+    val allTables: StateFlow<List<Table>> get() = _allTables
 
-    fun getTableById(id: Int) = tableRepository.getTableById(id)
+    fun getTableById(id: Int): StateFlow<Table> = tableRepository.getTableById(id).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = Table(0, 0) // ค่าเริ่มต้นที่เหมาะสม
+    )
 
-    suspend fun insert(table: Table) {
+    fun insert(table: Table) {
         viewModelScope.launch {
             tableRepository.insert(table)
         }
     }
 
-    suspend fun update(table: Table) {
+    fun update(table: Table) {
         viewModelScope.launch {
             tableRepository.update(table)
         }
     }
 
-    suspend fun delete(table: Table) {
+    fun delete(table: Table) {
         viewModelScope.launch {
             tableRepository.delete(table)
         }

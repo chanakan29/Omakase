@@ -11,14 +11,26 @@ class TableRepository(private val tableDao: TableDao) {
     fun getTableById(id: Int): Flow<Table> = tableDao.getTableById(id)
 
     suspend fun insert(table: Table) {
-        tableDao.insert(table)
+        try {
+            tableDao.insert(table)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 
     suspend fun update(table: Table) {
-        tableDao.update(table)
+        try {
+            tableDao.update(table)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 
     suspend fun delete(table: Table) {
-        tableDao.delete(table)
+        try {
+            tableDao.delete(table)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log ข้อผิดพลาด
+        }
     }
 }
