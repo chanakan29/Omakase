@@ -2,8 +2,9 @@ package com.example.omakase
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.example.omakase.databinding.ActivityMainBinding
-import com.example.omakase.ui.CourseSelectionFragment // Import CourseSelectionFragment
+import com.example.omakase.ui.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,13 +15,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ตั้งค่า OnClickListener ให้กับปุ่ม "เลือกคอร์สและจอง"
-        binding.buttonMakeReservation.setOnClickListener {
-            val courseSelectionFragment = CourseSelectionFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, courseSelectionFragment)
-                .addToBackStack(null)
-                .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.fragmentContainerView, HomeFragment())
+            }
         }
     }
 }

@@ -36,14 +36,6 @@ class CourseDetailsDialogFragment : DialogFragment() {
         courseDetails = arguments?.getStringArrayList("courseDetails")
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.let {
-            val width = (resources.displayMetrics.widthPixels * 0.90).toInt() // กำหนดความกว้างเป็น 90% ของหน้าจอ
-            it.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +70,7 @@ class CourseDetailsDialogFragment : DialogFragment() {
         bundle.putString("courseType", courseType)
         fragment.arguments = bundle
 
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction() // เปลี่ยนตรงนี้
             .replace(R.id.fragmentContainerView, fragment)
             .addToBackStack(null)
             .commit()
