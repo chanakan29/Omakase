@@ -13,17 +13,27 @@ import com.example.omakase.R
 class CourseDetailsDialogFragment : DialogFragment() {
 
     private var courseName: String? = null
-    private var menuItems: List<String>? = null
+    private var courseDetails: List<String>? = null
+
+    private lateinit var textViewCourseName: TextView
+    private lateinit var linearLayoutMenu: LinearLayout
+    private lateinit var buttonNextToReservationTime: Button
 
     companion object {
-        fun newInstance(courseName: String, menuList: List<String>): CourseDetailsDialogFragment {
+        fun newInstance(courseName: String, courseDetails: List<String>): CourseDetailsDialogFragment {
             val fragment = CourseDetailsDialogFragment()
             val args = Bundle()
             args.putString("courseName", courseName)
-            args.putStringArrayList("menuItems", ArrayList(menuList))
+            args.putStringArrayList("courseDetails", ArrayList(courseDetails))
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        courseName = arguments?.getString("courseName")
+        courseDetails = arguments?.getStringArrayList("courseDetails")
     }
 
     override fun onStart() {
@@ -32,12 +42,6 @@ class CourseDetailsDialogFragment : DialogFragment() {
             val width = (resources.displayMetrics.widthPixels * 0.90).toInt() // กำหนดความกว้างเป็น 90% ของหน้าจอ
             it.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        courseName = arguments?.getString("courseName")
-        menuItems = arguments?.getStringArrayList("menuItems")?.toList()
     }
 
     override fun onCreateView(
@@ -50,34 +54,33 @@ class CourseDetailsDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val textViewCourseName = view.findViewById<TextView>(R.id.textViewCourseName)
-        val linearLayoutMenu = view.findViewById<LinearLayout>(R.id.linearLayoutMenu)
-        val buttonNextToReservationTime = view.findViewById<Button>(R.id.buttonNextToReservationTime)
+        textViewCourseName = view.findViewById(R.id.textViewCourseName)
+        linearLayoutMenu = view.findViewById(R.id.linearLayoutMenu)
+        buttonNextToReservationTime = view.findViewById(R.id.buttonNextToReservationTime)
 
         textViewCourseName.text = courseName
 
-        linearLayoutMenu.removeAllViews()
-
-        menuItems?.forEach { menuItem ->
-            val menuItemView = layoutInflater.inflate(R.layout.item_menu_detail, linearLayoutMenu, false)
-            val textViewMenuItemName = menuItemView.findViewById<TextView>(R.id.textViewMenuItemName)
-            val textViewMenuItemDetail = menuItemView.findViewById<TextView>(R.id.textViewMenuItemDetail)
-
-            val parts = menuItem.split(":") // สมมติว่าชื่อเมนูและรายละเอียดคั่นด้วย ":"
-            if (parts.size == 2) {
-                textViewMenuItemName.text = parts[0].trim()
-                textViewMenuItemDetail.text = parts[1].trim()
-            } else {
-                textViewMenuItemName.text = menuItem // ถ้าไม่มี ":" ให้แสดงเป็นชื่อเมนูอย่างเดียว
-                textViewMenuItemDetail.visibility = View.GONE // ซ่อน TextView รายละเอียด
-            }
-
-            linearLayoutMenu.addView(menuItemView)
+        courseDetails?.forEach { detail ->
+            val textView = TextView(requireContext())
+            textView.text = detail
+            linearLayoutMenu.addView(textView)
         }
 
         buttonNextToReservationTime.setOnClickListener {
-            // TODO: นำทางไปยังหน้าเลือกวันและเวลา พร้อมข้อมูลคอร์สที่เลือก
-            dismiss() // ปิด Dialog
+            navigateToReservation(courseName ?: "ไม่ระบุ")
+            dismiss()
         }
+    }
+
+    private fun navigateToReservation(courseType: String) {
+        val fragment = ReservationDateTimeFragment()
+        val bundle = Bundle()
+        bundle.putString("courseType", courseType)
+        fragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
