@@ -1,4 +1,4 @@
-package com.example.omakase
+package com.example.omakase.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

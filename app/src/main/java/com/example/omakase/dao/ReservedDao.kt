@@ -5,8 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.omakase.Reserved
-import com.example.omakase.Table // อย่าลืม Import Table
+import com.example.omakase.entity.Reserved
+import com.example.omakase.entity.Table // อย่าลืม Import Table
 import kotlinx.coroutines.flow.Flow
 
 @Dao
