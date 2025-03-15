@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.example.omakase.R
 
 class CourseDetailsDialogFragment : DialogFragment() {
@@ -24,6 +23,14 @@ class CourseDetailsDialogFragment : DialogFragment() {
             args.putStringArrayList("menuItems", ArrayList(menuList))
             fragment.arguments = args
             return fragment
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.let {
+            val width = (resources.displayMetrics.widthPixels * 0.90).toInt() // กำหนดความกว้างเป็น 90% ของหน้าจอ
+            it.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
     }
 
@@ -49,12 +56,23 @@ class CourseDetailsDialogFragment : DialogFragment() {
 
         textViewCourseName.text = courseName
 
+        linearLayoutMenu.removeAllViews()
+
         menuItems?.forEach { menuItem ->
-            val textViewMenuItem = TextView(context)
-            textViewMenuItem.text = menuItem
-            textViewMenuItem.textSize = 16f
-            textViewMenuItem.setPadding(0, 0, 0, 16)
-            linearLayoutMenu.addView(textViewMenuItem)
+            val menuItemView = layoutInflater.inflate(R.layout.item_menu_detail, linearLayoutMenu, false)
+            val textViewMenuItemName = menuItemView.findViewById<TextView>(R.id.textViewMenuItemName)
+            val textViewMenuItemDetail = menuItemView.findViewById<TextView>(R.id.textViewMenuItemDetail)
+
+            val parts = menuItem.split(":") // สมมติว่าชื่อเมนูและรายละเอียดคั่นด้วย ":"
+            if (parts.size == 2) {
+                textViewMenuItemName.text = parts[0].trim()
+                textViewMenuItemDetail.text = parts[1].trim()
+            } else {
+                textViewMenuItemName.text = menuItem // ถ้าไม่มี ":" ให้แสดงเป็นชื่อเมนูอย่างเดียว
+                textViewMenuItemDetail.visibility = View.GONE // ซ่อน TextView รายละเอียด
+            }
+
+            linearLayoutMenu.addView(menuItemView)
         }
 
         buttonNextToReservationTime.setOnClickListener {
