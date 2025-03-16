@@ -3,7 +3,6 @@ package com.example.omakase.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,10 +44,10 @@ class PaymentFragment : Fragment() {
         textViewTotalAmount = view.findViewById(R.id.textViewTotalAmount)
 
         // รับข้อมูลที่ส่งมาจาก UserInfoFragment
-        val selectedDate = arguments?.getString("selectedDate")
-        val selectedTime = arguments?.getString("selectedTime")
-        val selectedCourse = arguments?.getString("selectedCourse")
-        Log.d("PaymentFragment", "Selected Course: $selectedCourse")
+        // รับข้อมูลที่ส่งมาจาก UserInfoFragment
+        val selectedDate = arguments?.getString("date")
+        val selectedTime = arguments?.getString("timeSlot")
+        val selectedCourse = arguments?.getString("courseType")
         val firstName = arguments?.getString("firstName")
         val lastName = arguments?.getString("lastName")
         val email = arguments?.getString("email")
@@ -87,7 +86,17 @@ class PaymentFragment : Fragment() {
 
                 // TODO: นำทางไปยังหน้ายืนยันการจอง (ถ้าต้องการ)
                 val confirmationFragment = ReservationConfirmationFragment()
-                val bundle = Bundle()
+                val bundle = Bundle().apply {
+                    putString("date", selectedDate)
+                    putString("timeSlot", selectedTime)
+                    putString("courseType", selectedCourse)
+                    putString("firstName", firstName)
+                    putString("lastName", lastName)
+                    putString("email", email)
+                    putString("phone", phone)
+                    putInt("numberOfPeople", numberOfPeople!!)
+                    putString("additionalRequest", additionalRequest)
+                }
                 confirmationFragment.arguments = bundle
 
                 parentFragmentManager.beginTransaction()

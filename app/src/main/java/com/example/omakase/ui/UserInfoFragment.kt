@@ -3,6 +3,7 @@ package com.example.omakase.ui
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,11 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("UserInfoFragment", "Arguments received: ${arguments != null}")
+        Log.d("UserInfoFragment", "Selected Date: ${arguments?.getString("date")}")
+        Log.d("UserInfoFragment", "Selected Time: ${arguments?.getString("timeSlot")}")
+        Log.d("UserInfoFragment", "Selected Course: ${arguments?.getString("courseType")}")
+
         textViewReservationDetails = view.findViewById(R.id.textViewReservationDetails)
         editTextFirstName = view.findViewById(R.id.editTextFirstName)
         editTextLastName = view.findViewById(R.id.editTextLastName)
@@ -65,9 +71,9 @@ class UserInfoFragment : Fragment() {
         textInputLayoutAdditionalRequest = view.findViewById(R.id.textInputLayoutAdditionalRequest)
 
         // รับข้อมูลที่ส่งมาจาก ReservationDateTimeFragment
-        val selectedDate = arguments?.getString("selectedDate")
-        val selectedTime = arguments?.getString("selectedTime")
-        val selectedCourse = arguments?.getString("selectedCourse")
+        val selectedDate = arguments?.getString("date")      // เปลี่ยนเป็น "date"
+        val selectedTime = arguments?.getString("timeSlot")  // เปลี่ยนเป็น "timeSlot"
+        val selectedCourse = arguments?.getString("courseType") // เปลี่ยนเป็น "courseType"
 
         // แสดงรายละเอียดการจอง
         val reservationDetailsText = "รายละเอียดการจอง: $selectedDate\n เวลา $selectedTime $selectedCourse"
@@ -169,9 +175,9 @@ class UserInfoFragment : Fragment() {
 
                 // ถ้าผ่านการตรวจสอบทั้งหมด ให้สร้าง Bundle และนำทางไปยัง PaymentFragment
                 val bundle = Bundle().apply {
-                    putString("selectedDate", selectedDate)
-                    putString("selectedTime", selectedTime)
-                    putString("selectedCourse", selectedCourse)
+                    putString("date", selectedDate)       // เปลี่ยนเป็น "date" (แต่ข้อมูลนี้มาจาก Fragment ก่อนหน้าแล้ว ควรจะถูกเปลี่ยนที่ Fragment ก่อนหน้า)
+                    putString("timeSlot", selectedTime)   // เปลี่ยนเป็น "timeSlot" (ข้อมูลนี้มาจาก Fragment ก่อนหน้าแล้ว)
+                    putString("courseType", selectedCourse) // เปลี่ยนเป็น "courseType" (ข้อมูลนี้มาจาก Fragment ก่อนหน้าแล้ว)
                     putString("firstName", firstName)
                     putString("lastName", lastName)
                     putString("email", email)

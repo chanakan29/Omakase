@@ -1,6 +1,7 @@
 package com.example.omakase.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +48,10 @@ class ReservationConfirmationFragment : Fragment() {
         val db = AppDatabase.getDatabase(requireContext(), lifecycleScope)
         reservationDao = db.reservationDao()
 
-        // ดึงข้อมูลการจองจาก arguments
-        val selectedDate = arguments?.getString("selectedDate")
-        val selectedTime = arguments?.getString("selectedTime")
-        val selectedCourse = arguments?.getString("selectedCourse")
+        // ดึงข้อมูลการจองจาก arguments โดยใช้ชื่อ Field ใน Entity เป็น Key
+        val date = arguments?.getString("date")
+        val timeSlot = arguments?.getString("timeSlot")
+        val courseType = arguments?.getString("courseType")
         val firstName = arguments?.getString("firstName")
         val lastName = arguments?.getString("lastName")
         val email = arguments?.getString("email")
@@ -58,10 +59,20 @@ class ReservationConfirmationFragment : Fragment() {
         val numberOfPeople = arguments?.getInt("numberOfPeople")
         val additionalRequest = arguments?.getString("additionalRequest")
 
+        Log.d("ConfirmationFragment", "Date: $date")
+        Log.d("ConfirmationFragment", "Time Slot: $timeSlot")
+        Log.d("ConfirmationFragment", "Course Type: $courseType")
+        Log.d("ConfirmationFragment", "First Name: $firstName")
+        Log.d("ConfirmationFragment", "Last Name: $lastName")
+        Log.d("ConfirmationFragment", "Email: $email")
+        Log.d("ConfirmationFragment", "Phone: $phone")
+        Log.d("ConfirmationFragment", "Number of People: $numberOfPeople")
+        Log.d("ConfirmationFragment", "Additional Request: $additionalRequest")
+
         val newReservation = Reservation(
-            date = selectedDate ?: "",
-            timeSlot = selectedTime ?: "",
-            courseType = selectedCourse ?: "",
+            date = date ?: "",
+            timeSlot = timeSlot ?: "",
+            courseType = courseType ?: "",
             firstName = firstName,
             lastName = lastName,
             email = email,
