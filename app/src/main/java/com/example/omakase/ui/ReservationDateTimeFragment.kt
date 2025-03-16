@@ -2,6 +2,7 @@ package com.example.omakase.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,8 @@ class ReservationDateTimeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.d("DateTimeFragment", "Received courseType: ${arguments?.getString("courseType")}")
 
         textViewSelectDateTime = view.findViewById(R.id.textViewSelectDateTime)
         datePicker = view.findViewById(R.id.datePicker)
@@ -134,9 +137,9 @@ class ReservationDateTimeFragment : Fragment() {
 
             // สร้าง Bundle เพื่อส่งข้อมูลไปยัง Fragment ถัดไป
             val bundle = Bundle().apply {
-                putString("selectedDate", selectedDate)
-                putString("selectedTime", time)
-                putString("selectedCourse", selectedCourse)
+                putString("date", selectedDate) // เปลี่ยนเป็น "date"
+                putString("timeSlot", time)    // เปลี่ยนเป็น "timeSlot"
+                putString("courseType", selectedCourse) // เปลี่ยนเป็น "courseType"
             }
 
             // ตัวอย่างการนำทางไปยัง Fragment ถัดไป (สมมติว่าเป็น Fragment ชื่อ UserInfoFragment)
