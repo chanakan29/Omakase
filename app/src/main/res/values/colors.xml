@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary_color">#673AB7</color>   <!-- สีม่วงสำหรับปุ่ม -->
+    <color name="accent_color">#E91E63</color>    <!-- สีชมพูสำหรับเส้นคั่น -->
+    <color name="background_color">#F5F5F7</color> <!-- สีพื้นหลังอ่อนๆ -->
+    <color name="text_primary">#212121</color>    <!-- สีข้อความหลัก -->
+    <color name="ripple_color">#9C27B0</color>    <!-- สีเอฟเฟกต์กดปุ่ม -->
 </resources>

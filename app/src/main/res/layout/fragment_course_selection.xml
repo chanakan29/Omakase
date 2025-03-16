@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="เมนู: ... (รายละเอียดเมนูจะแสดงในหน้าต่างถัดไป)"
+                android:text="เมนู: ... (กดเพื่อดูรายละเอียดเมนู)"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp" />
 
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="เมนู: ... (รายละเอียดเมนูจะแสดงในหน้าต่างถัดไป)"
+                android:text="เมนู: ... (กดเพื่อดูรายละเอียดเมนูจ)"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp" />
 

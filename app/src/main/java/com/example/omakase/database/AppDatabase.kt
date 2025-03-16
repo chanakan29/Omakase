@@ -10,11 +10,14 @@ import com.example.omakase.entity.MenuItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.omakase.dao.ReservationDao
+import com.example.omakase.entity.Reservation
 
-@Database(entities = [MenuItem::class], version = 1, exportSchema = false)
+@Database(entities = [MenuItem::class, Reservation::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun menuItemDao(): MenuItemDao
+    abstract fun reservationDao(): ReservationDao
 
     companion object {
         @Volatile
@@ -28,7 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "omakase_database"
                 )
                     .addCallback(AppDatabaseCallback(scope)) // เพิ่ม Callback ที่นี่
-                    // .fallbackToDestructiveMigration()
+                    //.fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -44,12 +47,12 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let {
                 scope.launch(Dispatchers.IO) {
-                    populateDatabase(it.menuItemDao())
+                    populateDatabase(it.menuItemDao(), it.reservationDao())
                 }
             }
         }
 
-        suspend fun populateDatabase(menuItemDao: MenuItemDao) {
+        suspend fun populateDatabase(menuItemDao: MenuItemDao, reservationDao: ReservationDao) {
             // ลบข้อมูลเก่าออกก่อน (ถ้าต้องการ)
             // menuItemDao.deleteAll()
 
@@ -64,7 +67,7 @@ abstract class AppDatabase : RoomDatabase() {
             menuItemDao.insertMenuItems(listOf(menuItem))
             menuItem = MenuItem(courseType = "regular", name = "ปลาหมึกย่างซีอิ๊ว", details = "เมนูพิเศษประจำฤดูกาล") // เพิ่มข้อความที่ชื่อเมนู
             menuItemDao.insertMenuItems(listOf(menuItem))
-            menuItem = MenuItem(courseType = "regular", name = "ซุปมิโซะ")
+            menuItem = MenuItem(courseType = "regular", name = "ซุปมิโซะ", details = "เต้าหู้, สาหร่าย")
             menuItemDao.insertMenuItems(listOf(menuItem))
 
             // เพิ่มข้อมูลเมนูสำหรับคอร์สพรีเมี่ยม
@@ -82,6 +85,46 @@ abstract class AppDatabase : RoomDatabase() {
             menuItemDao.insertMenuItems(listOf(menuItem))
             menuItem = MenuItem(courseType = "premium", name = "เนื้อวากิวย่าง", details = "A5 วากิวย่างบนเตาถ่าน")
             menuItemDao.insertMenuItems(listOf(menuItem))
+
+            // คุณสามารถเพิ่มข้อมูลการจองจำลองได้ตามต้องการ
+            val reservation1 = Reservation(date = "2025-03-18", timeSlot = "14:00-15:30", courseType = "regular")
+            reservationDao.insert(reservation1)
+            val reservation2 = Reservation(date = "2025-03-20", timeSlot = "12:00-13:30", courseType = "premium")
+            reservationDao.insert(reservation2)
+            val reservation3 = Reservation(date = "2025-03-20", timeSlot = "16:00-17:30", courseType = "regular")
+            reservationDao.insert(reservation3)
+            val reservation4 = Reservation(date = "2025-03-22", timeSlot = "18:00-19:30", courseType = "premium")
+            reservationDao.insert(reservation4)
+
+            // เพิ่มข้อมูลการจองสำหรับวันที่ 5 เมษายน
+            var reservation = Reservation(date = "2025-04-05", timeSlot = "12:00-13:30", courseType = "premium")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-05", timeSlot = "16:00-17:30", courseType = "regular")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-05", timeSlot = "14:00-15:30", courseType = "premium")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-05", timeSlot = "18:00-19:30", courseType = "premium")
+            reservationDao.insert(reservation)
+
+            // เพิ่มข้อมูลการจองสำหรับวันที่ 6 เมษายน
+            reservation = Reservation(date = "2025-04-06", timeSlot = "14:00-15:30", courseType = "regular")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-06", timeSlot = "18:00-19:30", courseType = "premium")
+            reservationDao.insert(reservation)
+
+            // เพิ่มข้อมูลการจองสำหรับวันที่ 7 เมษายน
+            reservation = Reservation(date = "2025-04-07", timeSlot = "12:00-13:30", courseType = "regular")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-07", timeSlot = "16:00-17:30", courseType = "premium")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-07", timeSlot = "18:00-19:30", courseType = "regular")
+            reservationDao.insert(reservation)
+
+            // เพิ่มข้อมูลการจองสำหรับวันที่ 8 เมษายน
+            reservation = Reservation(date = "2025-04-08", timeSlot = "14:00-15:30", courseType = "premium")
+            reservationDao.insert(reservation)
+            reservation = Reservation(date = "2025-04-08", timeSlot = "18:00-19:30", courseType = "regular")
+            reservationDao.insert(reservation)
         }
     }
 }

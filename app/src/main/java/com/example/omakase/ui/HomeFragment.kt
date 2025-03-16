@@ -31,6 +31,14 @@ class HomeFragment : Fragment() {
                 addToBackStack(null) // เพิ่ม BackStack ถ้าต้องการให้กด Back กลับมาหน้าหลักได้
             }
         }
+
+        // เพิ่ม Listener สำหรับปุ่มดูรายการจอง
+        binding.buttonViewReservations?.setOnClickListener { // ใช้ ?. เพื่อป้องกัน NullPointerException
+            parentFragmentManager.commit {
+                replace(R.id.fragmentContainerView, ReservationListFragment())
+                addToBackStack(null) // เพิ่ม BackStack ถ้าต้องการให้กด Back กลับมาหน้าหลักได้
+            }
+        }
     }
 
     override fun onDestroyView() {

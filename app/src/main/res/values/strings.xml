@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Omakase</string>
+    <string name="full_name">%1$s %2$s</string>
+    <string name="number_of_people">จำนวน: %1$d คน</string>
 </resources>
