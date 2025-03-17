@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/imageViewRestaurant"
             android:layout_width="0dp"
-            android:layout_height="350dp"
+            android:layout_height="400dp"
             android:scaleType="centerCrop"
             android:src="@drawable/restaurant_placeholder"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
             android:id="@+id/textViewRestaurantDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="เปิดให้บริการทุกวัน "
+            android:text="เปิดให้บริการทุกวัน\nContact us:\nkusrc.omakase@ku.th\n083-433-4585"
             android:textSize="16sp"
             android:textColor="#757575"
             android:gravity="center"
