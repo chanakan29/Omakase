@@ -106,7 +106,9 @@
                 android:id="@+id/editTextPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="10"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -166,6 +168,8 @@
             android:layout_marginEnd="64dp"
             android:layout_marginBottom="32dp"
             android:text="ไปยังหน้าชำระเงิน"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

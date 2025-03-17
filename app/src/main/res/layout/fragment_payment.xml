@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/imageViewConfirmation"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginTop="50dp"
             android:src="@drawable/restaurant_placeholder" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +74,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="ชำระด้วย PromptPay"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewPaymentOptionsLabel" />
@@ -86,6 +88,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="ชำระด้วยบัตรเครดิต"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonPayByPromptPay" />
@@ -120,6 +124,8 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:text="ยืนยันการชำระเงิน"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTotalAmount" />
