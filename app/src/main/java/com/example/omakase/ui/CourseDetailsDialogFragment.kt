@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.example.omakase.R
 
@@ -64,6 +65,41 @@ class CourseDetailsDialogFragment : DialogFragment() {
             val textView = TextView(requireContext())
             textView.text = detail
             linearLayoutMenu.addView(textView)
+
+            textView.setPadding(16, 8, 16, 8)
+
+            if (detail.contains(":")) {
+                val parts = detail.split(":", limit = 2)
+                val menuTitle = parts[0].trim()
+                val menuDescription = parts[1].trim()
+
+                // สร้าง TextView สำหรับชื่อเมนู
+                val titleTextView = TextView(requireContext())
+                titleTextView.text = menuTitle
+                titleTextView.textSize = 16f
+                titleTextView.setTypeface(null, android.graphics.Typeface.BOLD)
+                titleTextView.setPadding(16, 16, 16, 4)
+                linearLayoutMenu.addView(titleTextView)
+
+                // สร้าง TextView สำหรับรายละเอียด
+                val descriptionTextView = TextView(requireContext())
+                descriptionTextView.text = menuDescription
+                descriptionTextView.textSize = 14f
+                descriptionTextView.setPadding(32, 4, 16, 16)
+                linearLayoutMenu.addView(descriptionTextView)
+            } else {
+                // ถ้าเป็นรายการทั่วไป
+                textView.textSize = 14f
+                linearLayoutMenu.addView(textView)
+            }
+
+            // เพิ่มเส้นคั่นระหว่างรายการ
+            val divider = View(requireContext())
+            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+            params.setMargins(16, 8, 16, 8)
+            divider.layoutParams = params
+            divider.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
+            linearLayoutMenu.addView(divider)
         }
 
         buttonNextToReservationTime.setOnClickListener {
