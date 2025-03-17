@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:theme="@style/CustomDatePickerStyle"
         app:layout_constraintTop_toBottomOf="@+id/textViewBookingNotice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -72,7 +73,7 @@
         android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
-        app:backgroundTint="#5D5466"
+        android:backgroundTint="#D32F2F"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
